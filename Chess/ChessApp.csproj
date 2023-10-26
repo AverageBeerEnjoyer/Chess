@@ -1,0 +1,103 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <UseWPF>true</UseWPF>
+    <LangVersion>8</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="assets\SVG No shadow\w_pawn_svg_NoShadow.svg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="assets\cells\dark-cell.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\cells\light-cell.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\b-bishop.xaml" />
+    <None Include="assets\xaml\b-bishop.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\b-king.xaml" />
+    <None Include="assets\xaml\b-king.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\b-knight.xaml" />
+    <None Include="assets\xaml\b-knight.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\b-pawn.xaml" />
+    <None Include="assets\xaml\b-pawn.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\b-queen.xaml" />
+    <None Include="assets\xaml\b-queen.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\b-rook.xaml" />
+    <None Include="assets\xaml\b-rook.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\dark-cell.xaml" />
+    <None Include="assets\xaml\dark-cell.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\light-cell.xaml" />
+    <None Include="assets\xaml\light-cell.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\w-bishop.xaml" />
+    <None Include="assets\xaml\w-bishop.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\w-king.xaml" />
+    <None Include="assets\xaml\w-king.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\w-pawn.xaml" />
+    <None Include="assets\xaml\w-pawn.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\w-knight.xaml" />
+    <None Include="assets\xaml\w-knight.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\w-queen.xaml" />
+    <None Include="assets\xaml\w-queen.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Remove="assets\xaml\w-rook.xaml" />
+    <None Include="assets\xaml\w-rook.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <PackageReference Include="SharpVectors.Wpf" Version="1.8.1" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChessEngine\ChessEngine.csproj" />
+  </ItemGroup>
+
+</Project>
