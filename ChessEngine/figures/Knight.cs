@@ -16,10 +16,9 @@ namespace ChessEngine.figures {
         public Knight(Knight figure) : base(figure){}
         
         
-        private protected override string shortCut() {
-            return "K";
+        public override string shortCut() {
+            return "N";
         }
-
         public override object Clone() {
             return new Knight(this);
         }

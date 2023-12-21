@@ -1,0 +1,23 @@
+﻿<Window x:Class="ChessApp.MoveHistory"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChessApp"
+        mc:Ignorable="d"
+        Title="MoveHistory" Height="450" Width="800">
+    <Grid>
+        <ListView x:Name="moves" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=id}">Идентификатор</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=gameId}" Width="100">Идентификатор игры</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=record}">Запись</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=moveNumber}">Номер хода</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=moveColor}">Цвет хода</GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+</Window>

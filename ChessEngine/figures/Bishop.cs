@@ -21,7 +21,7 @@ namespace ChessEngine.figures {
 
         public Bishop(Bishop figure) : base(figure) { }
 
-        private protected override string shortCut() {
+        public override string shortCut() {
             return "B";
         }
 

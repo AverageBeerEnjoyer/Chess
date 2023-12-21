@@ -20,7 +20,7 @@ namespace ChessEngine.figures {
             return cell;
         }
 
-        private protected abstract string shortCut();
+        public abstract string shortCut();
 
         public override string ToString() {
             return PlayerColors.shortCut(color) + shortCut();

@@ -23,8 +23,8 @@ namespace ChessEngine.figures {
         public King(King figure) : base(figure) { }
 
 
-        private protected override string shortCut() {
-            return " ";
+        public override string shortCut() {
+            return "K";
         }
 
         public override object Clone() {
@@ -107,7 +107,7 @@ namespace ChessEngine.figures {
 
         public bool hasOuts(bool[,] coverage) {
             for (int i = cell.x - 1; i <= cell.x + 1; ++i) {
-                for (int j = cell.x - 1; j <= cell.x + 1; ++j) {
+                for (int j = cell.y - 1; j <= cell.y + 1; ++j) {
                     if (Utils.isOnField(i, j) && !coverage[i, j] && canMove(cell.deck.getCell(i, j))) return true;
                 }
             }

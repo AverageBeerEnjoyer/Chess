@@ -31,7 +31,7 @@ namespace ChessEngine.figures {
             return canMoveInDirection(dirX, dirY, distance);
         }
 
-        private protected override string shortCut() {
+        public override string shortCut() {
             return "Q";
         }
 

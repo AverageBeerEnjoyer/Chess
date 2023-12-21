@@ -34,14 +34,13 @@ namespace ChessEngine.figures {
             enPassant = figure.enPassant;
         }
 
-        private protected override string shortCut() {
-            return "P";
+        public override string shortCut() {
+            return " ";
         }
 
         public override object Clone() {
             return new Pawn(this);
         }
-
         public override void markCoverage(bool[,] field) {
             markInDirection(field,1,PlayerColors.directionModifier(color), 1);
             markInDirection(field,-1,PlayerColors.directionModifier(color), 1);

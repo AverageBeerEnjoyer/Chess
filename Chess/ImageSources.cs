@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using XamlReader = System.Windows.Markup.XamlReader;
 
-namespace Chess {
+namespace ChessApp {
     public static class Images {
 
         public static readonly DrawingImage darkCell = new DrawingImage(loadGroup("assets/xaml/dark-cell.xaml"));
@@ -34,22 +36,24 @@ namespace Chess {
         }
         public static DrawingImage getSourceByCellString(string figure) {
             switch (figure) {
-                case "WP": return whitePawn;
+                case "W ": return whitePawn;
                 case "WR": return whiteRook;
-                case "WK": return whiteKnight;
+                case "WN": return whiteKnight;
                 case "WB": return whiteBishop;
                 case "WQ": return whiteQueen;
-                case "W ": return whiteKing;
+                case "WK": return whiteKing;
 
-                case "BP": return blackPawn;
+                case "B ": return blackPawn;
                 case "BR": return blackRook;
-                case "BK": return blackKnight;
+                case "BN": return blackKnight;
                 case "BB": return blackBishop;
                 case "BQ": return blackQueen;
-                case "B ": return blackKing;
+                case "BK": return blackKing;
 
                 default: return null;
             }
         }
+
+        public static Image img(DrawingImage image) { return new Image() { Source = image, Margin = new Thickness(5) }; }
     }
 }

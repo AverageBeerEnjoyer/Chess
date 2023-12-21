@@ -19,7 +19,7 @@ namespace ChessEngine.figures {
 
         public Rook(Rook figure) : base(figure) {}
 
-        private protected override string shortCut() {
+        public override string shortCut() {
             return "R";
         }
 

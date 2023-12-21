@@ -29,5 +29,17 @@ namespace ChessEngine
         public static PlayerColor not(PlayerColor color) {
             return color == PlayerColor.WHITE ? PlayerColor.BLACK : PlayerColor.WHITE;
         }
+
+        public static PlayerColor fromString(string s) {
+            switch(s){
+                case "WHITE": {
+                    return PlayerColor.WHITE;
+                }
+                case "BLACK": {
+                    return PlayerColor.BLACK;
+                }
+                default: throw new ArgumentException();
+            }
+        }
     }
 }

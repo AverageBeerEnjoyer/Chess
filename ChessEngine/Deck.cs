@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ChessEngine.figures;
+using System.Reflection;
 
 namespace ChessEngine {
     public class Deck {
@@ -12,9 +13,27 @@ namespace ChessEngine {
 
         private Cell[,] cells;
 
+        private Move record;
+
+        private bool waitingForType = false;
+        private Cell needToReplace;
+
         public Deck() {
             initCells();
             startPosition();
+        }
+        public Move getMove() {
+            return record;
+        }
+        public void setType(Type type) {
+            if (waitingForType) { 
+                ConstructorInfo ci = type.GetConstructor(new[] { typeof(PlayerColor), typeof(Cell) });
+                needToReplace.Figure = (Figure)ci.Invoke(new object[] { PlayerColors.not(moveColor), needToReplace });
+                waitingForType = false;
+                record.setCheck(isCheck(moveColor));
+                record.setCheckmate(isCheckMate(moveColor));
+                needToReplace = null;
+            }
         }
 
         private int kingNum(PlayerColor color) {
@@ -82,19 +101,30 @@ namespace ChessEngine {
         }
 
         public Move makeMove(Cell from, Cell to) {
-            if(from.Figure == null) 
-                throw new IllegalMoveException(IllegalMoveException.Causes.noFigure);
-            if(from.Figure.getColor() != moveColor)
-                throw new IllegalMoveException(IllegalMoveException.Causes.wrongColor);
-            if(!from.Figure.canMove(to))
+            if (!from.Figure.canMove(to))
                 throw new IllegalMoveException(IllegalMoveException.Causes.canNotMoveHere);
-            Move moveRecord = new Move(from, to);
+            Figure moved = from.Figure;
+            Figure taken = to.Figure;
+
             move(from, to);
             if (isCheck(moveColor)) throw new IllegalMoveException(IllegalMoveException.Causes.kingUnderCheck);
+
+            if (moved is Pawn && to.y == PlayerColors.firstRow(PlayerColors.not(moveColor))) {
+                waitingForType = true;
+                needToReplace = to;
+            }
+
             moveColor = PlayerColors.not(moveColor);
-            moveRecord.setCheck(isCheck(moveColor));
-            moveRecord.setCheckmate(isCheckMate(moveColor));
-            return moveRecord;
+
+            record = new Move(from, to, moved, taken, moveColor: PlayerColors.not(moveColor));
+
+
+            if (waitingForType)
+                throw new IllegalMoveException(IllegalMoveException.Causes.figureToReplaceNotChosen);
+            record.setCheck(isCheck(moveColor));
+            record.setCheckmate(isCheckMate(moveColor));
+            
+            return record;
         }
 
         private void move(Cell from, Cell to) {
@@ -130,7 +160,7 @@ namespace ChessEngine {
             return field;
         }
 
-        public void shortCastle() {
+        public Move shortCastle() {
             int row = PlayerColors.firstRow(moveColor);
             bool[,] coverage = this.coverage(PlayerColors.not(moveColor));
             checkRookAndKing(cells[7, row]);
@@ -140,6 +170,17 @@ namespace ChessEngine {
 
             move(cells[4, row], cells[6, row]);
             move(cells[7, row], cells[5, row]);
+            moveColor = PlayerColors.not(moveColor);
+            record = new Move(
+                cells[4, row],
+                cells[2, row],
+                null,
+                null,
+                "00",
+                isCheck(moveColor),
+                isCheckMate(moveColor),
+                PlayerColors.not(moveColor));
+            return record;
         }
 
         private void checkRookAndKing(Cell rookCell) {
@@ -151,7 +192,7 @@ namespace ChessEngine {
                 !rook.isFirstMove()) throw new IllegalMoveException(IllegalMoveException.Causes.castleMoveCondition);
         }
 
-        public void longCastle() {
+        public Move longCastle() {
             int row = PlayerColors.firstRow(moveColor);
             bool[,] coverage = this.coverage(PlayerColors.not(moveColor));
             checkRookAndKing(cells[0, row]);
@@ -161,13 +202,23 @@ namespace ChessEngine {
 
             move(cells[4, row], cells[2, row]);
             move(cells[0, row], cells[3, row]);
+            moveColor = PlayerColors.not(moveColor);
+            record = new Move(
+                cells[4, row],
+                cells[2, row],
+                null,
+                null,
+                "00",
+                isCheck(moveColor),
+                isCheckMate(moveColor),
+                PlayerColors.not(moveColor));
+            return record;
         }
 
         public bool isCheck(PlayerColor color) {
             bool[,] coverage = this.coverage(PlayerColors.not(color));
             King king = kings[this.kingNum(color)];
-            if (coverage[king.getCell().x, king.getCell().y]) return true;
-            return false;
+            return coverage[king.getCell().x, king.getCell().y];
         }
 
         public bool isCheckMate(PlayerColor color) {
@@ -192,8 +243,7 @@ namespace ChessEngine {
                     if (!figure.canMove(to)) continue;
                     try {
                         deck.makeMove(deck.cells[i, j], to);
-                    }
-                    catch (IllegalMoveException e) {
+                    } catch (IllegalMoveException e) {
                         continue;
                     }
 
@@ -220,7 +270,7 @@ namespace ChessEngine {
             int distance = Math.Max(Math.Abs(dx), Math.Abs(dy));
 
             for (int i = 1; i <= distance; ++i) {
-                if (canAvoidCheckByTakingCell(cells[king.getCell().x + dirX * i, king.getCell().y + dirY * i],color))
+                if (canAvoidCheckByTakingCell(cells[king.getCell().x + dirX * i, king.getCell().y + dirY * i], color))
                     return true;
             }
 
@@ -232,7 +282,7 @@ namespace ChessEngine {
             for (int i = 0; i < 8; ++i) {
                 for (int j = 0; j < 8; ++j) {
                     if (j == 0) sb.Append("|");
-                    sb.Append(cells[i,j].ToString());
+                    sb.Append(cells[i, j].ToString());
                     sb.Append("|");
                 }
 
